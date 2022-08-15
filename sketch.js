@@ -1,5 +1,5 @@
 let cols, rows;
-let increment = 0.2;
+let increment = 1;
 let scl = 30;
 let fr;
 let zOff = 0;
@@ -9,7 +9,8 @@ let particles = [];
 let flowField;
 
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(innerHeight, innerHeight);
+  background('#151515')
   cols = floor(width / scl);
   rows = floor(height / scl);
   fr = createP("");
@@ -21,14 +22,13 @@ function setup() {
   }
 
   let yOff = 0;
-  noFill();
   for (let y = 0; y < cols; y++) {
     let xOff = 0;
     for (let x = 0; x < rows; x++) {
       let index = x + y * rows;
       let angle = noise(xOff, yOff) * TWO_PI;
       let v = p5.Vector.fromAngle(angle);
-      v.setMag(0.01);
+      v.setMag(0.1);
       flowField[index] = v;
       // push();
       // stroke(0, 0);
