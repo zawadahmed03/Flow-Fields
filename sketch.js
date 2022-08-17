@@ -1,5 +1,5 @@
 let cols, rows;
-let increment = 1;
+let increment = 0.5;
 let scl = 30;
 let fr;
 let zOff = 0;
@@ -13,7 +13,6 @@ function setup() {
   background('#151515')
   cols = floor(width / scl);
   rows = floor(height / scl);
-  fr = createP("");
 
   flowField = new Array(cols * rows);
 
@@ -22,27 +21,19 @@ function setup() {
   }
 
   let yOff = 0;
-  for (let y = 0; y < cols; y++) {
+  for (let y = 0; y < rows; y++) {
     let xOff = 0;
-    for (let x = 0; x < rows; x++) {
+    for (let x = 0; x < cols; x++) {
       let index = x + y * rows;
-      let angle = noise(xOff, yOff) * TWO_PI;
+      let angle = noise(xOff, yOff, zOff) * TWO_PI;
       let v = p5.Vector.fromAngle(angle);
-      v.setMag(0.1);
+      v.setMag(0.05);
       flowField[index] = v;
-      // push();
-      // stroke(0, 0);
-      // strokeWeight(4);
-      // strokeCap(SQUARE);
-      // translate(x * scl, y * scl);
-      // rotate(v.heading());
-      // line(0, 0, scl, 0);
-      // pop();
       xOff += increment;
     }
     yOff += increment;
 
-    zOff += 0.0005;
+    zOff += 0.05;
   }
 }
 
@@ -53,6 +44,4 @@ function draw() {
     particles[i].update();
     particles[i].show();
   }
-
-  fr.html(floor(frameRate()));
 }

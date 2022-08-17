@@ -17,7 +17,7 @@ function Particle() {
 
   this.show = function () {
     colorMode(HSB)
-    stroke(floor(random(360)), 80, 80, 10);
+    stroke(120, 50, 50, 10);
     strokeWeight(1);
     point(this.pos.x, this.pos.y);
   };
