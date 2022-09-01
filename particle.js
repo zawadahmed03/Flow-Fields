@@ -3,27 +3,26 @@ function Particle() {
   this.vel = createVector(0, 0);
   this.acc = createVector(0, 0);
   this.maxSpeed = 2;
+  this.hue = random(0,360)
+  this.alpha = 0
 
   this.update = function () {
     this.vel.add(this.acc);
     this.vel.limit(this.maxSpeed);
     this.pos.add(this.vel);
     this.acc.mult(0);
+    if (this.hue <= 360) this.hue += 0.5
+    else this.hue = 0
+    if (this.alpha < 1) this.alpha += 0.001
   };
 
   this.applyForce = function (force) {
     this.acc.add(force);
   };
 
-  this.show = function (vectors) {
-    let x = floor(this.pos.x / scl);
-    let y = floor(this.pos.y / scl);
-    let n = noise(x, y)
-    let h = map(n, 0, 1, 0, 360);
-    let s = map(n, 0, 1, 0, 100);
-    let b = map(n, 0, 1, 0, 100);
+  this.show = function () {
     colorMode(HSB);
-    stroke(75, 75, b);
+    stroke(this.hue, 75, 75, this.alpha);
     strokeWeight(1);
     point(this.pos.x, this.pos.y);
   };
@@ -43,11 +42,14 @@ function Particle() {
     }
   };
 
-  this.follow = function (vectors) {
-    let x = floor(this.pos.x / scl);
-    let y = floor(this.pos.y / scl);
-    let index = x + y * cols;
-    let force = vectors[index];
+  this.follow = function () {
+    let x = this.pos.x / scl;
+    let y = this.pos.y / scl;
+    let angle = noise(x, y) * TWO_PI;
+    let v = p5.Vector.fromAngle(angle);
+    v.setMag(1);
+    v.mult(0.1)
+    let force = v 
     this.applyForce(force);
   };
 }
